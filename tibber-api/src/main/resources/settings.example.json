@@ -1,0 +1,5 @@
+{
+	"comment1":      "Rename this file to settings.json and set a valid access token below",
+	"comment2":		 "Below token is a demo token",
+	"accessToken": "d1007ead2dc84a2b82f0de19451c5fb22112f7ae11d19bf2bedb224a003ff74a"
+}
