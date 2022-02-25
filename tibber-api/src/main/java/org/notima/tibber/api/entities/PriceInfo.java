@@ -17,6 +17,7 @@
 package org.notima.tibber.api.entities;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
 public class PriceInfo {
 
@@ -29,6 +30,18 @@ public class PriceInfo {
 
 	public void setCurrentPrice(CurrentPrice currentPrice) {
 		this.currentPrice = currentPrice;
-	}
-	
+  }
+  
+  @SerializedName("today")
+  private List<CurrentPrice> todaysPrice;
+
+  public List<CurrentPrice> getTodaysPrice() {
+    return todaysPrice;
+  }
+
+  public void setTodaysPrice(List<CurrentPrice> todaysPrice) {
+    this.todaysPrice = todaysPrice;
+  }
+  
+  
 }

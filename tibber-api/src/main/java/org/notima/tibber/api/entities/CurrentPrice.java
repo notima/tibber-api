@@ -30,6 +30,7 @@ public class CurrentPrice {
 	private Double energy;
 	private Double tax;
 	private Date startsAt;
+	private String currency;
 	
 	/**
 	 * 
@@ -74,6 +75,12 @@ public class CurrentPrice {
 	}
 	public void setStartsAt(Date startsAt) {
 		this.startsAt = startsAt;
+	}
+	public String getCurrency() {
+		return currency;
+	}
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 	
 }

@@ -36,12 +36,18 @@ public class TibberClient {
 
 	public static String defaultTibberUrl = "https://api.tibber.com/v1-beta/gql";
 
+	public static enum TimeIndicatorType {
+		current,
+		tomorrow,
+		today
+	}
+
 	private String tibberUrl;
 	
 	private String accessToken;
 
 	// GraphQL query to request price
-	private String requestPrice = "{\n" + 
+	private String requestCurrentPrice = "{\n" + 
 			"  viewer {\n" + 
 			"    homes {\n" + 
 			"      currentSubscription{\n" + 
@@ -51,12 +57,36 @@ public class TibberClient {
 			"            energy\n" + 
 			"            tax\n" + 
 			"            startsAt\n" + 
+			"			 currency\n" +
 			"          }\n" + 
 			"        }\n" + 
 			"      }\n" + 
 			"    }\n" + 
 			"  }\n" + 
 			"}\n";
+
+	private String getPriceInfoQL(TimeIndicatorType ti) {
+
+		String result = "{\n" + 
+		"  viewer {\n" + 
+		"    homes {\n" + 
+		"      currentSubscription{\n" + 
+		"        priceInfo{\n" + 
+		"          " + ti.toString() + "{\n" + 
+		"            total\n" + 
+		"            energy\n" + 
+		"            tax\n" + 
+		"            startsAt\n" + 
+		"			 currency\n" +
+		"          }\n" + 
+		"        }\n" + 
+		"      }\n" + 
+		"    }\n" + 
+		"  }\n" + 
+		"}\n";
+
+		return result;
+	}
 
 	private OkHttpClient client = new OkHttpClient();
 
@@ -87,13 +117,28 @@ public class TibberClient {
 	 * @return	A TibberResponse.
 	 * @throws IOException
 	 */
-	public TibberResponse requestPrice() throws IOException {
+	public TibberResponse requestCurrentPrice() throws IOException {
 
-		String response = post(tibberUrl, requestPrice);
+		String response = post(tibberUrl, requestCurrentPrice);
 		TibberResponse result = TibberUtil.gson.fromJson(response, TibberResponse.class);
 
 		return result;
 	}
+
+	/**
+	 * Requests current price.
+	 * 
+	 * @return	A TibberResponse.
+	 * @throws IOException
+	 */
+	public TibberResponse requestPrice(TimeIndicatorType ti) throws IOException {
+
+		String response = post(tibberUrl, getPriceInfoQL(ti));
+		TibberResponse result = TibberUtil.gson.fromJson(response, TibberResponse.class);
+
+		return result;
+	}
+
 
 	/**
 	 * Generic method to call Tibber-API

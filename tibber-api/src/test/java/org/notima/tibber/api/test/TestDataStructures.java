@@ -85,17 +85,50 @@ class TestDataStructures {
 		TibberClient cl = new TibberClient(accessToken);
 		TibberResponse r;
 		try {
-			r = cl.requestPrice();
+			r = cl.requestCurrentPrice();
 			CurrentPrice cp = r.getData().getViewer().getHomes().get(0).getCurrentSubscription().getPriceInfo().getCurrentPrice();
 			
 			assertNotNull(cp, "No current price record returned");
 			assertNotNull(cp.getEnergy(), "No energy price returned");
 			
+			if (cp!=null) {
+				System.out.println("Energy price: " + cp.getEnergy());
+				System.out.println("Tax: " + cp.getTax());
+				System.out.println("Total: " + cp.getTotal());
+			}
+
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 		
+
+	@DisplayName("Test making a pricerequest call for today's prices")
+	@Test
+	void testPriceRequestToday() {
+		String accessToken = settings.getAccessToken();
+		TibberClient cl = new TibberClient(accessToken);
+		TibberResponse r;
+		try {
+			r = cl.requestPrice(TibberClient.TimeIndicatorType.today);
+			List<CurrentPrice> cps = r.getData().getViewer().getHomes().get(0).getCurrentSubscription().getPriceInfo().getTodaysPrice();
+			
+			assertNotNull(cps, "No todays price records returned");
+			
+			if (cps!=null) {
+				for (CurrentPrice cp : cps) {
+					System.out.println("Starts at: " + cp.getStartsAt());
+					System.out.println("Energy price: " + cp.getEnergy());
+					System.out.println("Tax: " + cp.getTax());
+					System.out.println("Total: " + cp.getTotal());
+					System.out.println("Currency: " + cp.getCurrency());
+				}
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 }
