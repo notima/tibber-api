@@ -42,6 +42,16 @@ public class PriceInfo {
   public void setTodaysPrice(List<CurrentPrice> todaysPrice) {
     this.todaysPrice = todaysPrice;
   }
-  
+
+  @SerializedName("tomorrow")
+  private List<CurrentPrice> tomorrowsPrice;
+
+  public List<CurrentPrice> getTomorrowsPrice() {
+    return tomorrowsPrice;
+  }
+
+  public void setTomorrowsPrice(List<CurrentPrice> tomorrowsPrice) {
+    this.tomorrowsPrice = tomorrowsPrice;
+  }
   
 }
